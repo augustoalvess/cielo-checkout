@@ -23,6 +23,12 @@ new Card({
         nameInput: 'input#cartaocreditotitular',
         expiryInput: 'input#cartaocreditovalidade',
         cvcInput: 'input#cartaocreditocvc'
+    },
+    placeholders: {
+        number: '•••• •••• •••• ••••',
+        name: 'Nome titular',
+        expiry: '••/••••',
+        cvc: '•••'
     }
 });
 

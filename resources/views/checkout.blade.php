@@ -93,7 +93,7 @@
                                     <div class="card-wrapper"></div>
                                 </div>
                             </div>
-                            <div class="row mt-5">
+                            <div class="row mt-4">
                                 <div class="col-md-12 form-group">
                                     <button type="submit" class="btn btn-success" style="width:100%">Confirmar pagamento</button>
                                 </div>

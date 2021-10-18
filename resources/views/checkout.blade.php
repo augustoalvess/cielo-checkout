@@ -21,7 +21,7 @@
                     <div class="card-body">
                         <form action="/checkout/finalizar" method="POST" id="checkoutForm" class="form-horizontal">
                             <div class="row" id="creditcard-card">
-                                <div class="col-md-6">
+                                <div class="col-md-7">
                                     <div class="row">
                                         <div class="col-md-12 form-group">
                                             <div class="input-group">
@@ -74,7 +74,7 @@
                                             <div class="input-group">
                                                 <span class="input-group-prepend bg-white border-right-0">
                                                     <span class="input-group-text bg-transparent">
-                                                        <i class="fa fa-calculator"></i>
+                                                        <b>R$</b>
                                                     </span>
                                                 </span>
                                                 <select id="pagamentoforma" name="pagamentoforma" class="form-control border-left-0" required>
@@ -89,11 +89,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-5">
                                     <div class="card-wrapper"></div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row mt-5">
                                 <div class="col-md-12 form-group">
                                     <button type="submit" class="btn btn-success" style="width:100%">Confirmar pagamento</button>
                                 </div>

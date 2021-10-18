@@ -14,6 +14,7 @@ const mix = require('laravel-mix');
 mix.styles([
     'node_modules/bootstrap/dist/css/bootstrap.min.css',
     'node_modules/card/dist/card.css',
+    'resources/css/app.css',
 ],  'public/css/app.css')
 
 .css('node_modules/font-awesome/css/font-awesome.css', 'public/css/font-awesome.css')

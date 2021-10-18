@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 <link rel="stylesheet" href="{{ asset('css/font-awesome.css') }}">
 <script src="{{ asset('js/app.js') }}" defer></script>
 
@@ -35,7 +35,7 @@
                                                                     </span>
                                                                 </span>
                                                                 <input type="hidden" id="cartaocreditobandeira" name="cartaocreditobandeira"/>
-                                                                <input type="tel" id="cartaocreditonumero" name="cartaocreditonumero" class="form-control border-left-0" required placeholder="Número do cartão de crédito"/>
+                                                                <input type="tel" id="cartaocreditonumero" name="cartaocreditonumero" class="form-control border-left-0" required placeholder="Número do cartão de crédito" autofocus/>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -47,7 +47,7 @@
                                                                         <i class="fa fa-user"></i>
                                                                     </span>
                                                                 </span>
-                                                                <input type="text" id="cartaocreditotitular" name="cartaocreditotitular" class="form-control border-left-0" required placeholder="Titular do cartão" autofocus/>
+                                                                <input type="text" id="cartaocreditotitular" name="cartaocreditotitular" class="form-control border-left-0" required placeholder="Titular do cartão"/>
                                                             </div>
                                                         </div>
                                                     </div>

@@ -15,7 +15,9 @@ new Card({
     }
 });
 
-// Seta a bandeira identificada para o campo hidden 'creditCardType'
-document.getElementById('creditcardnumber').addEventListener('payment.cardType', function (event) {
-    $('#cartaocreditobandeira').val(event.detail);
+// Seta a bandeira identificada para o campo hidden 'cartaocreditobandeira'
+document.getElementById('cartaocreditonumero').addEventListener('payment.cardType', function (event) {
+    if (event.detail != 'unknown') {
+        $('#cartaocreditobandeira').val(event.detail);
+    }
 });

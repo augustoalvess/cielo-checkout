@@ -16,7 +16,6 @@ class CheckoutController extends Controller {
 
     public function checkoutCartaoDeCredito(Request $request) {
         $validator = Validator::make($request->all(), [
-            'invoiceid' => 'required',
             'cartaocreditobandeira' => 'required',
             'cartaocreditonumero' => 'required',
             'cartaocreditotitular' => 'required',
@@ -24,7 +23,6 @@ class CheckoutController extends Controller {
             'cartaocreditocvc' => 'required',
             'pagamentoqtdparcelas' => 'required'
         ], [
-            'invoiceid.required' => 'Nao foi identificado nenhum título a ser pago.',
             'cartaocreditobandeira.required' => 'Não foi possível identificar a bandeira do cartão.',
             'cartaocreditonumero.required' => 'O campo "Número do cartão de crédito" é requerido.',
             'cartaocreditotitular.required' => 'O campo "Titular do cartão" é requerido.',
@@ -36,7 +34,7 @@ class CheckoutController extends Controller {
             $resposta = new PagamentoResposta();
             $resposta->sucesso = false;
             $resposta->mensagemretorno = $validator->errors()->all();
-            return view('checkout/checkout', ['resposta' => $resposta]);
+            return view('checkout', ['resposta' => $resposta]);
         }
 
         $pagamento = new Pagamento();

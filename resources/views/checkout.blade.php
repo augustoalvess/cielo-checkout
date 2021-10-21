@@ -37,7 +37,7 @@
                     <div class="card-body">
                         <div class="row justify-content-right">
                             <div class="col-md-2 form-group">
-                                <a href="/" class="btn btn-info"><i class="fas fa-arrow-left"></i> Voltar</a>
+                                <a href="/" class="btn btn-info"><i class="fa fa-chevron-left" aria-hidden="true"></i> Voltar</a>
                             </div>
                         </div>
                         <form action="/checkout/finalizar" method="POST" id="checkoutForm" class="form-horizontal">
@@ -45,7 +45,7 @@
                             <div class='row'>
                                 <div class='col-md-12'>
                                     <div class='alert alert-secondary' role='alert'>
-                                        <b><input type='radio' id='invoiceid' name='invoiceid' checked value='' checked> (Cód) - (Descrição) - R$ (Valor)  @if (1 > 0) <span class="badge badge-danger p-2">EM ABERTO</span> @else <span class="badge badge-success p-2">QUITADO</span> @endif</b>
+                                        <b><input type='radio' id='invoiceid' name='invoiceid' checked value='' checked> 12345 - PRODUTO DE TESTE - R$ 5,00  @if (5.00 > 0) <span class="badge badge-danger p-2">EM ABERTO</span> @else <span class="badge badge-success p-2">QUITADO</span> @endif</b>
                                     </div>
                                 </div>
                             </div>

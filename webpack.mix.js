@@ -20,6 +20,7 @@ mix.styles([
 .css('node_modules/font-awesome/css/font-awesome.css', 'public/css/font-awesome.css')
 
 .scripts([
+    'node_modules/jquery/dist/jquery.min.js',
     'node_modules/card/dist/card.js',
     'resources/js/checkout.js',
 ],  'public/js/app.js');

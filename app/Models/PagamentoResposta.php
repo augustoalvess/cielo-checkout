@@ -2,15 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-class PagamentoResposta {
-    use HasFactory;
+class PagamentoResposta extends Model {
 
     protected $fillable = [
         'sucesso',
         'resposta',
-        'errocodigo',
-        'erromensagem'
+        'codigoretorno',
+        'mensagemretorno'
     ];
 }

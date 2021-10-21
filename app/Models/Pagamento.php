@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-class Pagamento {
-    use HasFactory;
+class Pagamento extends Model {
 
     protected $fillable = [
         'pagamentoid',
@@ -16,6 +15,7 @@ class Pagamento {
         'cartaocreditocvc',
         'pagamentoforma',
         'pagamentovalor',
+        'pagamentoqtdparcelas',
         'clienteid',
         'clientenome',
         'clientecpfcnpj',

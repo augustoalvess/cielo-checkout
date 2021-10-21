@@ -5,23 +5,52 @@
 <section class="py-5" id="checkout">
 	<div class="container-fluid">
 
-        @if (isset($pagamentoResposta->erromensagem) && !empty($pagamentoResposta->erromensagem))
+        @if (isset($resposta->sucesso) && !$resposta->sucesso)
             <div class="row justify-content-center mb-3">
                 <div class="col-md-8">
                     <div class="alert alert-danger" role="alert">
-                        Mensagem de erro!
+                        @if (is_array($resposta->mensagemretorno))
+                            @foreach ($resposta->mensagemretorno as $erro)
+                                {{$erro}} <br>
+                            @endforeach
+                        @else
+                            {{$resposta->codigoretorno}} - {{$resposta->mensagemretorno}}
+                        @endif
+                    </div>
+                </div>
+            </div>
+        @endif
+
+        @if (isset($resposta->sucesso) && $resposta->sucesso)
+            <div class="row justify-content-center mb-3">
+                <div class="col-md-8">
+                    <div class="alert alert-success" role="alert">
+                        {{$resposta->codigoretorno}} - {{$resposta->mensagemretorno}}
                     </div>
                 </div>
             </div>
         @endif
 
         <div class="row justify-content-center">
-            <div class="col-md-7">
+            <div class="col-md-8">
                 <div class="card">
                     <div class="card-body">
+                        <div class="row justify-content-right">
+                            <div class="col-md-2 form-group">
+                                <a href="/" class="btn btn-info"><i class="fas fa-arrow-left"></i> Voltar</a>
+                            </div>
+                        </div>
                         <form action="/checkout/finalizar" method="POST" id="checkoutForm" class="form-horizontal">
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            <div class='row'>
+                                <div class='col-md-12'>
+                                    <div class='alert alert-secondary' role='alert'>
+                                        <b><input type='radio' id='invoiceid' name='invoiceid' checked value='' checked> (Cód) - (Descrição) - R$ (Valor)  @if (1 > 0) <span class="badge badge-danger p-2">EM ABERTO</span> @else <span class="badge badge-success p-2">QUITADO</span> @endif</b>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="row" id="creditcard-card">
-                                <div class="col-md-7">
+                                <div class="col-md-6">
                                     <div class="row">
                                         <div class="col-md-12 form-group">
                                             <div class="input-group">
@@ -77,7 +106,7 @@
                                                         <b>R$</b>
                                                     </span>
                                                 </span>
-                                                <select id="pagamentoforma" name="pagamentoforma" class="form-control border-left-0" required>
+                                                <select id="pagamentoqtdparcelas" name="pagamentoqtdparcelas" class="form-control border-left-0" required>
                                                     <option value="1">À VISTA</option>
                                                     <option value="2">2x</option>
                                                     <option value="3">3x</option>
@@ -89,7 +118,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-5">
+                                <div class="col-md-6">
                                     <div class="card-wrapper"></div>
                                 </div>
                             </div>

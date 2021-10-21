@@ -15,15 +15,15 @@ use Cielo\API30\Ecommerce\Request\CieloRequestException;
 class CieloService implements CheckoutServiceInterface {
 
     public static function pagamentoCartaoDeCredito(Pagamento $pagamento): PagamentoResposta {
-        $environment = Environment::sandbox();
-        $merchant = new Merchant('MERCHANT ID', 'MERCHANT KEY');
+        $environment = Environment::sandbox(); // Environment::production()
+        $merchant = new Merchant('56a04a20-7b2c-487d-8d68-4c90f467944a', 'KIYXUODITXFRORETIVUWYKTKSXIEWGHRJGRFASCU'); // 'MERCHANT ID', 'MERCHANT KEY'
 
         $sale = new Sale($pagamento->pagamentoid);
         $sale->customer($pagamento->clienteid . ' - ' . $pagamento->clientenome)
             ->setIdentity(str_replace([".", "-", "/"], "", $pagamento->clientecpfcnpj))
             ->setIdentityType((strlen($pagamento->clientecpfcnpj) > 14) ? 'CNPJ' : 'CPF')
             ->address()->setZipCode(str_replace('-', '', $pagamento->clientecep))
-            ->setCountry($pagamento->clientepais) // BRA
+            ->setCountry($pagamento->clientepais)
             ->setState($pagamento->clienteuf)
             ->setCity($pagamento->clientecidade)
             ->setDistrict($pagamento->clientebairro)
@@ -31,9 +31,9 @@ class CieloService implements CheckoutServiceInterface {
             ->setNumber($pagamento->clientenumero)
             ->setComplement($pagamento->clientecomplemento);
 
-        $payment = $sale->payment(number_format($pagamento->pagamentovalor, 2, '', ''));
+        $payment = $sale->payment(number_format($pagamento->pagamentovalor, 2, '', ''), $pagamento->pagamentoqtdparcelas);
         $payment->setType(Payment::PAYMENTTYPE_CREDITCARD)
-                ->creditCard($pagamento->cartaocreditocvc, ($pagamento->cartaocreditobandeira != 'mastercard') ?? 'master')
+                ->creditCard($pagamento->cartaocreditocvc, ($pagamento->cartaocreditobandeira != 'mastercard') ? $pagamento->cartaocreditobandeira : 'master')
                 ->setExpirationDate(str_replace(" ", "", $pagamento->cartaocreditovalidade))
                 ->setCardNumber(str_replace(" ", "", $pagamento->cartaocreditonumero))
                 ->setHolder($pagamento->cartaocreditotitular);
@@ -43,29 +43,38 @@ class CieloService implements CheckoutServiceInterface {
 
             $returnCode = $sale->getPayment()->getReturnCode();
             $returnMessage = $sale->getPayment()->getReturnMessage();
-            if (!in_array($returnCode, array('4', '6'))) {
-                throw new \Exception($returnCode . ' - ' . $returnMessage);
+            if (!in_array($returnCode, array('0', '00', '000'))) {
+                throw new CieloRequestException($returnMessage, $returnCode);
             }
+
+            (new CieloEcommerce($merchant, $environment))->captureSale($sale->getPayment()->getPaymentId());
 
             $resposta = [
                 'sucesso' => true,
                 'resposta' => [
-                    'paymentId' => $sale->getPayment()->getPaymentId(),
+                    'paymentid' => $sale->getPayment()->getPaymentId(),
                     'tid' => $sale->getPayment()->getTid(),
-                    'paymentDate' => $sale->getPayment()->getReceivedDate()
+                    'paymentdate' => $sale->getPayment()->getReceivedDate()
                 ],
-                'erroCodigo' => null,
-                'erroMensagem' => null
+                'codigoretorno' => $returnCode,
+                'mensagemretorno' => $returnMessage
             ];
-            return new PagamentoResposta($resposta);
+            $respostaPagamento = new PagamentoResposta();
+            $respostaPagamento->fill($resposta);
+
+            return $respostaPagamento;
+
         } catch (CieloRequestException $e) {
             $resposta = [
                 'sucesso' => false,
                 'resposta' => [],
-                'erroCodigo' => $e->getCieloError()->getCode(),
-                'erroMensagem' => $e->getCieloError()->getMessage()
+                'codigoretorno' => !empty($e->getCieloError()) ? $e->getCieloError()->getCode() : $e->getCode(),
+                'mensagemretorno' => !empty($e->getCieloError()) ? $e->getCieloError()->getMessage() : $e->getMessage()
             ];
-            return new PagamentoResposta($resposta);
+            $respostaPagamento = new PagamentoResposta();
+            $respostaPagamento->fill($resposta);
+
+            return $respostaPagamento;
         }
     }
 
